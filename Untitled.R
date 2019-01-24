@@ -23,5 +23,20 @@ my_data <- ToothGrowth
 set.seed(1234)
 dplyr::sample_n(my_data, 10)
 
+## Check the structure
+str(my_data)
+
+## Convert dose as a factor and recode the levels as "D0.5", "D1", "D2"
+my_data$dose <- factor(my_data$dose, 
+                       levels = c(0.5, 1, 2),
+                       labels = c("D0.5", "D1", "D2"))
+
+## Display the beginning of the data table
+head(my_data)
+
+## Generate frequency table
+table(my_data$supp, my_data$dose)
+
+
 
 
