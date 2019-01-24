@@ -76,4 +76,34 @@ interaction.plot(x.factor = my_data$dose, trace.factor = my_data$supp,
                  xlab = "Dose", ylab="Tooth Length",
                  pch=c(1,19), col = c("#00AFBB", "#E7B800"))
 
+# Arguments used for the function interaction.plot():
+# x.factor: the factor to be plotted on x axis.
+# trace.factor: the factor to be plotted as lines
+# response: a numeric variable giving the response
+# type: the type of plot. Allowed values include p (for point only), 
+# l (for line only) and b (for both point and line).
+
+
+### Compute two-way ANOVA test
+res.aov2 <- aov(len ~ supp + dose, data = my_data)
+summary(res.aov2)
+
+# Two-way ANOVA with interaction effect
+# These two calls are equivalent
+res.aov3 <- aov(len ~ supp * dose, data = my_data)
+res.aov3 <- aov(len ~ supp + dose + supp:dose, data = my_data)
+summary(res.aov3)
+
+
+### Interpret the results
+# From the ANOVA results, you can conclude the following, based on the p-values 
+# and a significance level of 0.05:
+#
+## the p-value of supp is 0.000429 (significant), which indicates that the levels of supp 
+## are associated with significant different tooth length.
+## the p-value of dose is < 2e-16 (significant), which indicates that the levels of dose 
+## are associated with significant different tooth length.
+## the p-value for the interaction between supp*dose is 0.02 (significant), which indicates
+## that the relationships between dose and tooth length depends on the supp method.
+
 
