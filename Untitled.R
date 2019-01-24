@@ -107,3 +107,37 @@ summary(res.aov3)
 ## that the relationships between dose and tooth length depends on the supp method.
 
 
+## Compute some summary statistics
+require("dplyr")
+group_by(my_data, supp, dose) %>%
+  summarise(
+    count = n(),
+    mean = mean(len, na.rm = TRUE),
+    sd = sd(len, na.rm = TRUE)
+  )
+
+## It’s also possible to use the function model.tables() as follow:
+model.tables(res.aov3, type="means", se = TRUE)
+
+### Multiple pairwise-comparison between the means of groups
+# In ANOVA test, a significant p-value indicates that some of the group means are different,
+# but we don’t know which pairs of groups are different.
+# It’s possible to perform multiple pairwise-comparison, to determine if the mean difference 
+# between specific pairs of group are statistically significant.
+
+# Tukey multiple pairwise-comparisons
+TukeyHSD(res.aov3, which = "dose")
+# diff: difference between means of the two groups
+# lwr, upr: the lower and the upper end point of the confidence interval at 95% (default)
+# p adj: p-value after adjustment for the multiple comparisons.
+
+
+### Pairwise t-test
+# The function pairwise.t.test() can be also used to calculate pairwise comparisons between 
+# group levels with corrections for multiple testing.
+pairwise.t.test(my_data$len, my_data$dose,
+                p.adjust.method = "BH")
+
+
+
+
