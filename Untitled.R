@@ -38,5 +38,42 @@ head(my_data)
 table(my_data$supp, my_data$dose)
 
 
+## Visualize the data
+
+## Install for an easy ggplot2-based data visualization
+# if(!require(devtools)) install.packages("devtools")
+# devtools::install_github("kassambara/ggpubr")
+
+
+# Box plot with multiple groups
+# +++++++++++++++++++++
+# Plot tooth length ("len") by groups ("dose")
+# Color box plot by a second group: "supp"
+library("ggpubr")
+ggboxplot(my_data, x = "dose", y = "len", color = "supp",
+          palette = c("#00AFBB", "#E7B800"))
+
+# Line plots with multiple groups
+# +++++++++++++++++++++++
+# Plot tooth length ("len") by groups ("dose")
+# Color box plot by a second group: "supp"
+# Add error bars: mean_se
+# (other values include: mean_sd, mean_ci, median_iqr, ....)
+library("ggpubr")
+ggline(my_data, x = "dose", y = "len", color = "supp",
+       add = c("mean_se", "dotplot"),
+       palette = c("#00AFBB", "#E7B800"))
+
+
+# Box plot with two factor variables
+boxplot(len ~ supp * dose, data=my_data, frame = FALSE, 
+        col = c("#00AFBB", "#E7B800"), ylab="Tooth Length")
+
+# Two-way interaction plot
+interaction.plot(x.factor = my_data$dose, trace.factor = my_data$supp, 
+                 response = my_data$len, fun = mean, 
+                 type = "b", legend = TRUE, 
+                 xlab = "Dose", ylab="Tooth Length",
+                 pch=c(1,19), col = c("#00AFBB", "#E7B800"))
 
 
